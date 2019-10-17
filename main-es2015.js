@@ -84,7 +84,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = (" <form action=\"\" method=\"POST\" style=\"border:1px solid #ccc\">\r\n \r\n  <div class=\"container\">\r\n    <h1>ลงทะเบียน</h1>\r\n  <p>กรุณากรอกข้อมูลต่อไปนี้ให้ครบถ้วน</p>\r\n    <hr>\r\n    <label for=\"user\"><b>User</b></label>\r\n    <input type=\"text\" placeholder=\"User\" #user name=\"user\" required>\r\n\r\n    <label for=\"password\"><b>Password</b></label>\r\n    <input type=\"password\" placeholder=\"Password\" #password name=\"password\" required>\r\n\r\n    <p>ยอมรับข้อกำหนด<a href=\"#\" style=\"color:dodgerblue\">ข้อกำหนด</a>ของเว็บไซต์</p>\r\n\r\n    <div class=\"clearfix\">\r\n      <button type=\"button\" class=\"cancelbtn\">ยกเลิก</button>\r\n      <button type=\"button\" class=\"signupbtn\" (click)=\"signup(user.value, password.value)\">ลงทะเบียน</button>\r\n    </div>\r\n  </div>\r\n  \r\n</form>\r\n");
+/* harmony default export */ __webpack_exports__["default"] = (" <form action=\"\" method=\"POST\" style=\"border:1px solid #ccc\">\r\n  <div class=\"container\">\r\n    <h1>ลงทะเบียน</h1>\r\n  <p>กรุณากรอกข้อมูลต่อไปนี้ให้ครบถ้วน</p>\r\n    <hr>\r\n    <label for=\"user\"><b>User</b></label>\r\n    <input type=\"text\" placeholder=\"User\" #user name=\"user\" required>\r\n\r\n    <label for=\"password\"><b>Password</b></label>\r\n    <input type=\"password\" placeholder=\"Password\" #password name=\"password\" required>\r\n\r\n    <p>ยอมรับข้อกำหนด<a href=\"#\" style=\"color:dodgerblue\">ข้อกำหนด</a>ของเว็บไซต์</p>\r\n\r\n    <div class=\"clearfix\">\r\n      <button type=\"button\" class=\"cancelbtn\">ยกเลิก</button>\r\n      <button type=\"button\" class=\"signupbtn\" (click)=\"signup(user.value, password.value)\">ลงทะเบียน</button>\r\n    </div>\r\n  </div>\r\n</form>\r\n");
 
 /***/ }),
 
@@ -785,13 +785,13 @@ let UserService = class UserService {
         this.http = http;
         this.friends = [
             {
-                name: 'Flock',
-                pic: 'folk.png',
+                name: 'Franky Lee Jones',
+                pic: 'frank.png',
                 position: 'CEO',
             },
             {
-                name: 'fha',
-                pic: 'fha.jpg',
+                name: 'Alice in Wonderland',
+                pic: 'alisa.jpg',
                 position: 'Secretary',
             },
             {
@@ -804,8 +804,18 @@ let UserService = class UserService {
     }
     _getUsers() {
         return this.http.post('http://cs.sci.ubu.ac.th:7512/59110440084/user/_search', {
-            query: {}
-        });
+            query: {
+            /*
+            wildcard: {
+              user: { value: '*an*' }
+            }
+            */
+            }
+        }); /*.subscribe( data => {
+          this.users = data['result']['hits']
+          console.log(this.users)
+        }, error => {});
+        */
     }
     _saveUser(usr, passwd) {
         console.log(`user=${usr} passwd:${passwd}`);
@@ -869,6 +879,8 @@ let UsersComponent = class UsersComponent {
             this.users = data.result.hits;
             console.log(this.users);
             for (const u of this.users) {
+                // console.log(u['source'])
+                // console.log(u._source)
                 console.log(u._source.user);
             }
         }, error => {
